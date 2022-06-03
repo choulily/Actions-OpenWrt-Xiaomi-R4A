@@ -17,7 +17,8 @@ on:
       ssh:
         description: 'SSH 连接至 Actions'
         required: true
-        default: 'true'
+        default: 'false'
+        #If SSH to Github Actions Building Machine , You Will Be BANED
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
