@@ -170,8 +170,11 @@ jobs:
     #     echo "::warning file=wetransfer.com::$(cat wetransfer.log | grep https)"
     #     echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
 
-    - name: Compress Everything
-      run: cd openwrt && tar -zcvf pack.tar.gz ./dl/* ./bin/*
+    - name: Compress Firmware
+      run: cd openwrt && tar -zcvf bin.tar.gz ./bin/*
+
+    - name: Compress Firmware
+      run: cd openwrt && tar -zcvf dl.tar.gz ./dl/*
 
     - name: Compress lede folder
       run: tar -zcvf lede.tar.gz ./openwrt/*
@@ -185,6 +188,24 @@ jobs:
         [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
         [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
         echo "::set-output name=status::success"
+    
+    - name: Upload Firmware
+      uses: actions/upload-artifact@main
+      with:
+        name: Openwrt_LEDE_Firmware_R4A
+        path: openwrt/bin.tar.gz
+
+    - name: Upload LEDE Source
+      uses: actions/upload-artifact@main
+      with:
+        name: LEDE_Source
+        path: lede.tar.gz
+
+    - name: Upload Download Folder
+      uses: actions/upload-artifact@main
+      with:
+        name: LEDE_Download
+        path: openwrt/dl.tar.gz
 
     - name: Upload everything to release
       uses: softprops/action-gh-release@v1
@@ -193,14 +214,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ./openwrt/pack.tar.gz ./lede.tar.gz
-    
-    - name: Upload everything
-      uses: actions/upload-artifact@main
-      with:
-        name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: ./openwrt/pack.tar.gz ./lede.tar.gz
+        files: |
+            lede.tar.gz
+            openwrt/bin.tar.gz
+            openwrt/dl.tar.gz
 
     # - name: Delete workflow runs
     #   uses: GitRML/delete-workflow-runs@main
