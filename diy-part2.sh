@@ -27,4 +27,4 @@ sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/M
 sed -i 's/ssid=OpenWrt/ssid=Xiaomi_R4A/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # Change Kernel Version to 5.19 For Openclash
-sed -i 's#KERNEL_PATCHVER:=5.4#KERNEL_PATCHVER:=5.19#g' target/linux/ramips/Makefile
+sed -i 's#KERNEL_PATCHVER:=5.4#KERNEL_PATCHVER:=5.15#g' target/linux/ramips/Makefile
