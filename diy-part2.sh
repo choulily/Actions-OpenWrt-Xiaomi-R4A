@@ -26,5 +26,5 @@ sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/M
 # 修改默认wifi名称ssid为Xiaomi_R4A
 sed -i 's/ssid=OpenWrt/ssid=Xiaomi_R4A/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
-# Change Kernel Version to 5.19 For Openclash
+# Change Kernel Version to 510
 sed -i 's#KERNEL_PATCHVER:=5.4#KERNEL_PATCHVER:=5.10#g' target/linux/ramips/Makefile
