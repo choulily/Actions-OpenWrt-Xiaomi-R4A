@@ -30,4 +30,4 @@ sed -i 's/ssid=OpenWrt/ssid=Xiaomi_R4A/g' package/kernel/mac80211/files/lib/wifi
 sed -i 's#KERNEL_PATCHVER:=5.4#KERNEL_PATCHVER:=5.10#g' target/linux/ramips/Makefile
 
 # As far as i know, this fiexes error 2 issue when compiling
-rm /target/linux/generic/pending-5.10/435-mtd-add-routerbootpart-parser-config.patch
+#rm /target/linux/generic/pending-5.10/435-mtd-add-routerbootpart-parser-config.patch
