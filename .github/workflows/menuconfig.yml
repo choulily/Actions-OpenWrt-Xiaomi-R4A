@@ -87,8 +87,9 @@ jobs:
         
     - name: debug
       run: |
-        ls /workdir/openwrt/ | grep config
+        ls ./openwrt
         ls ./openwrt/ | grep config
+        ls ./openwrt/ | grep .config
 
     - name: Compress lede folder
       run: tar -zcvf lede.tar.gz ./openwrt/*
