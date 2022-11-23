@@ -86,7 +86,7 @@ jobs:
         $GITHUB_WORKSPACE/$DIY_P2_SH
         
     - name: debug
-      run:|
+      run: |
         ls /workdir/openwrt/ | grep config
         ls ./openwrt/ | grep config
 
