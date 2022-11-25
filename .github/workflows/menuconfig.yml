@@ -18,7 +18,7 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: ra4-old.config
+  CONFIG_FILE: ra4.config
   DIY_P1_SH: diy-part1.sh
   DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: true
@@ -48,14 +48,12 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-
     - name: Clone source code
       working-directory: /workdir
       run: |
         df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
-
     - name: Cache
       uses: klever1988/cachewrtbuild@main
       with:
@@ -68,7 +66,6 @@ jobs:
         chmod +x $DIY_P1_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
-
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
 
@@ -79,21 +76,16 @@ jobs:
       run: |
         [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        # cp ./Actions-OpenWrt-Xiaomi-R4A/ra4-old.config ./openwrt/.config
         ls ../
-        ls ./
-        ls ./Actions-OpenWrt-Xiaomi-R4A/
         mv zzz-default-settings openwrt/zzz-default-settings
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
-        
+
     - name: debug
       run: |
-        ls ./openwrt
+        ls /workdir/openwrt/ | grep config
         ls ./openwrt/ | grep config
-        ls ./openwrt/ | grep .config
-
     - name: Compress lede folder
       run: tar -zcvf lede.tar.gz ./openwrt/*
 
